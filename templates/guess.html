@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Guess the Number Game</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-image: linear-gradient(to bottom right, #00b894, #006266);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .glass-container {
+            position: relative;
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 0.5s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(-20px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+            animation: scaleIn 0.5s ease-in-out;
+        }
+
+        @keyframes scaleIn {
+            0% { transform: scale(0.8); }
+            100% { transform: scale(1); }
+        }
+
+        p {
+            font-size: 18px;
+            margin-bottom: 20px;
+            animation: slideIn 0.5s ease-in-out;
+        }
+
+        @keyframes slideIn {
+            0% { opacity: 0; transform: translateX(-20px); }
+            100% { opacity: 1; transform: translateX(0); }
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        input {
+            width: 100%;
+            max-width: 200px;
+            padding: 10px;
+            margin: 5px;
+            border: 2px solid #00b894;
+            border-radius: 5px;
+        }
+
+        button {
+            padding: 10px 20px;
+            background-color: #00b894;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        button:hover {
+            background-color: #006266;
+        }
+    </style>
+    <script>
+        // Function to display a hint popup after a delay
+        function showHintPopup(hint) {
+            setTimeout(function() {
+                alert("Hint: " + hint);
+            }, 3000);  // Display hint after 3 seconds (3000 milliseconds)
+        }
+    </script>
+</head>
+<body>
+    <div class="glass-container">
+        <h1>Guess the Number Game</h1>
+        <p>{{ message }}</p>
+        <form method="POST" onsubmit="showHintPopup('{{ hint }}')">
+            <input type="number" name="guess" placeholder="Enter your guess" required>
+            <button type="submit">Submit Guess</button>
+        </form>
+        {% if success %}
+        <p>Attempts: {{ session["attempts"] }}</p>
+        <form action="/" method="POST">
+            <button type="submit">Start New Game</button>
+        </form>
+        {% endif %}
+    </div>
+</body>
+</html>
